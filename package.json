@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.16.2",
     "camel-case": "^3.0.0",
     "deep-map-keys": "^1.2.0",
     "material-ui": "^1.0.0-beta.13",
     "material-ui-icons": "^1.0.0-beta.15",
     "normalizr": "^3.2.3",
+    "qs": "^6.5.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
@@ -15,6 +17,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
     "snake-case": "^2.1.0",
     "standard": "^10.0.3",
     "styled-components": "^2.2.1"

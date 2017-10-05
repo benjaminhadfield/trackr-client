@@ -4,11 +4,11 @@ import Charges from 'material-ui-icons/AttachMoney'
 import Add from 'material-ui-icons/Add'
 import Sent from 'material-ui-icons/PresentToAll'
 
-const Nav = () => (
+const Nav = ({ selected, onChange }) => (
   <BottomNavigation
     showLabels
-    value={0}
-    onChange={console.log}
+    value={selected}
+    onChange={onChange}
   >
     <BottomNavigationButton label='Charges' icon={<Charges />} />
     <BottomNavigationButton label='Create New' icon={<Add />} />

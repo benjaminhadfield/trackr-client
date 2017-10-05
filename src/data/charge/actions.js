@@ -1,5 +1,6 @@
 import api from '../api'
 import * as actions from '../actions'
+import { charge } from './schema'
 
 export const CHARGES_REQUEST = 'CHARGES_REQUEST'
 export const CHARGES_SUCCESS = 'CHARGES_SUCCESS'
@@ -12,9 +13,9 @@ const chargeFailure = actions.FAILURE(CHARGES_FAILURE)
 export const getCharges = () => (dispatch) => {
   dispatch(chargeRequest())
   api({
-    url: '/charge'
+    url: '/charges/'
   })
-    .then(actions.normalizeEntities({  }))
+    .then(actions.normalizeEntities([ charge ]))
     .then(normalised => dispatch(chargeSuccess(normalised)))
     .catch(error => chargeFailure(error))
 }

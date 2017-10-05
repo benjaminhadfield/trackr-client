@@ -4,6 +4,8 @@ import deepMapKeys from 'deep-map-keys'
 import camelCase from 'camel-case'
 import snakeCase from 'snake-case'
 
+import { store } from '../'
+
 /**
  * All API requests go through this function before being sent to the server.
  * Perform pre/post-processing here to apply it to every API request.
@@ -17,11 +19,14 @@ import snakeCase from 'snake-case'
  * https://github.com/mzabriskie/axios#request-config
  * @return {Promise}
  */
-export default ({ url, ...config }) => axios({
+export default ({ url, headers, ...config }) => axios({
   ...config,
+  headers: {
+    ...store.getState().user.token && {'Authorization': `Token ${store.getState().user.token}`},
+    ...headers
+  },
   url: process.env.REACT_APP_API_BASE_URL + process.env.REACT_APP_API_VERSION + url,
   paramsSerializer: params => qs.stringify(deepMapKeys(params, snakeCase)),
-  // transformRequest: data => deepMapKeys(data, snakeCase),  // TODO: Add this back in once extract api changes it's expected shape back to snake-case
   transformResponse: (data) => {
     // Only transform data is data exists, otherwise some responses will fail (e.g. HTTP 204).
     if (data) return deepMapKeys(JSON.parse(data), camelCase)

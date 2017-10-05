@@ -6,7 +6,7 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 
-const store = createStore()
+export const store = createStore()
 
 ReactDOM.render(
   <Provider store={store}>
