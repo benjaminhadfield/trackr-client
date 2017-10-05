@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import numeral from 'numeral'
 
+import Grid from 'material-ui/Grid'
+import Typography from 'material-ui/Typography'
 import { ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import { FormControlLabel, FormGroup } from 'material-ui/Form'
@@ -25,18 +28,22 @@ class ChargeItem extends React.Component {
   toggleOpen = () => this.setState(prevState => ({ open: !prevState.open }))
 
   render () {
-    const { value, title, chargeDate, isPaid } = this.props
+    const { value, title, message, chargeDate, isPaid, createdBy } = this.props
     const { open } = this.state
 
     const formattedValue = numeral(value / 100).format('0,0.00')
+    const chargeDateMoment = moment(chargeDate)
 
     return (
       <div>
-        <ListItem button onClick={this.toggleOpen}>
+        <ListItem button divider onClick={this.toggleOpen}>
           <ListItemIcon>
             {isPaid ? <Paid style={green} /> : <Unpaid style={amber} />}
           </ListItemIcon>
-          <ListItemText primary={'£ ' + formattedValue} />
+          <ListItemText
+            primary={'£' + formattedValue}
+            secondary={chargeDateMoment.fromNow()}
+          />
           <ListItemSecondaryAction>
             <FormGroup>
               <FormControlLabel
@@ -52,13 +59,26 @@ class ChargeItem extends React.Component {
             </FormGroup>
           </ListItemSecondaryAction>
         </ListItem>
+
         <Collapse
           unmountOnExit
           in={open}
           transitionDuration='auto'
         >
-          <ListItem>
-            <ListItemText primary={title} />
+          <ListItem divider style={{ background: '#f6f7f8' }}>
+            <Grid container direction='column'>
+              <Grid item>
+                <Typography>Sent by <strong>{createdBy}</strong> on <strong>{chargeDateMoment.format('ddd, Do MMMM YYYY')}</strong>.</Typography>
+              </Grid>
+              <Grid item>
+                <Typography type='caption'>Title</Typography>
+                <Typography>{title || '-'}</Typography>
+              </Grid>
+              <Grid item>
+                <Typography type='caption'>Message</Typography>
+                <Typography>{message || '-'}</Typography>
+              </Grid>
+            </Grid>
           </ListItem>
         </Collapse>
       </div>

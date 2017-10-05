@@ -22,7 +22,7 @@ class Charges extends React.Component {
   render () {
     const { charge } = this.props
     return (
-      <Grid container>
+      <Grid>
         <List>
           {charge.order.map(id => (
             <ChargeItem key={id} {...charge.entities[id]} />
