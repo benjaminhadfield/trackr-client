@@ -28,10 +28,12 @@ class ChargeItem extends React.Component {
   toggleOpen = () => this.setState(prevState => ({ open: !prevState.open }))
 
   render () {
-    const { value, title, message, chargeDate, isPaid, createdBy } = this.props
+    const { value, title, message, chargeDate, splitWith, isPaid, createdBy } = this.props
     const { open } = this.state
 
+    console.log(splitWith, splitWith.length)
     const formattedValue = numeral(value / 100).format('0,0.00')
+    const formattedSplitValue = numeral(value / splitWith.length / 100).format('0,0.00')
     const chargeDateMoment = moment(chargeDate)
 
     return (
@@ -41,7 +43,7 @@ class ChargeItem extends React.Component {
             {isPaid ? <Paid style={green} /> : <Unpaid style={amber} />}
           </ListItemIcon>
           <ListItemText
-            primary={'£' + formattedValue}
+            primary={'£' + formattedSplitValue}
             secondary={chargeDateMoment.fromNow()}
           />
           <ListItemSecondaryAction>
@@ -69,6 +71,10 @@ class ChargeItem extends React.Component {
             <Grid container direction='column'>
               <Grid item>
                 <Typography>Sent by <strong>{createdBy}</strong> on <strong>{chargeDateMoment.format('ddd, Do MMMM YYYY')}</strong>.</Typography>
+              </Grid>
+              <Grid item>
+                <Typography type='caption'>Full Amount</Typography>
+                <Typography>£{formattedValue}</Typography>
               </Grid>
               <Grid item>
                 <Typography type='caption'>Title</Typography>
