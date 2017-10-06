@@ -4,6 +4,8 @@ import withAuth from '../../enhancers/withAuth'
 import withNav from '../../enhancers/withNav'
 
 class Requests extends React.Component {
+  static title = 'My Charges'
+
   render () {
     return (
       <div>Requests</div>

@@ -12,7 +12,7 @@ const Nav = ({ selected, onChange }) => (
   >
     <BottomNavigationButton label='Charges' icon={<Charges />} />
     <BottomNavigationButton label='Create New' icon={<Add />} />
-    <BottomNavigationButton label='Sent' icon={<Sent />} />
+    <BottomNavigationButton disabled label='Sent' icon={<Sent />} />
   </BottomNavigation>
 )
 

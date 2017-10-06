@@ -17,6 +17,13 @@ class Login extends React.Component {
     password: ''
   }
 
+  componentDidMount () {
+    const { history } = this.props
+    if (Auth.isLoggedIn()) {
+      history.replace('/')
+    }
+  }
+
   handleChange = name => e => {
     this.setState({
       [name]: e.target.value
@@ -39,8 +46,8 @@ class Login extends React.Component {
   }
 
   render () {
-    const { actions, user } = this.props
-    const { username, password, error } = this.state
+    const { user } = this.props
+    const { username, password } = this.state
 
     return (
       <div>

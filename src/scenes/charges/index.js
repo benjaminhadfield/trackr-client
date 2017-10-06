@@ -5,6 +5,7 @@ import Grid from 'material-ui/Grid'
 import List from 'material-ui/List'
 import withNav from '../../enhancers/withNav'
 import withAuth from '../../enhancers/withAuth'
+import { usersSelector } from '../../data/user/selectors'
 import { chargesSelector, orderSelector } from '../../data/charge/selectors'
 import { getCharges } from '../../data/charge/actions'
 
@@ -15,6 +16,8 @@ class Charges extends React.Component {
     open: false
   }
 
+  static title = 'Charges'
+
   componentDidMount () {
     const { charge } = this.props
     if (!charge.order.length) {
@@ -23,12 +26,12 @@ class Charges extends React.Component {
   }
 
   render () {
-    const { charge } = this.props
+    const { charge, user } = this.props
     return (
       <Grid>
         <List>
           {charge.order.map(id => (
-            <ChargeItem key={id} {...charge.entities[id]} />
+            <ChargeItem key={id} {...charge.entities[id]} user={user} />
           ))}
         </List>
       </Grid>
@@ -40,6 +43,11 @@ const mapStateToProps = state => ({
   charge: {
     entities: chargesSelector(state),
     order: orderSelector(state)
+  },
+  user: {
+    entities: {
+      users: usersSelector(state)
+    }
   }
 })
 

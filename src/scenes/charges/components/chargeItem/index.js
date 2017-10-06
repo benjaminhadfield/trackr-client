@@ -28,12 +28,13 @@ class ChargeItem extends React.Component {
   toggleOpen = () => this.setState(prevState => ({ open: !prevState.open }))
 
   render () {
-    const { value, title, message, chargeDate, splitWith, isPaid, createdBy } = this.props
+    const { user, value, title, message, chargeDate, splitWith, isPaid, createdBy } = this.props
     const { open } = this.state
 
     const formattedValue = numeral(value / 100).format('0,0.00')
     const formattedSplitValue = numeral(value / (splitWith.length + 1) / 100).format('0,0.00')
     const chargeDateMoment = moment(chargeDate)
+    const formattedCreatedBy = user.entities.users[createdBy] || {}
 
     return (
       <div>
@@ -50,7 +51,7 @@ class ChargeItem extends React.Component {
               <FormControlLabel
                 control={
                   <Switch
-                    checked
+                    checked={false}
                     disabled={isPaid}
                     onChange={console.log}
                   />
@@ -69,7 +70,7 @@ class ChargeItem extends React.Component {
           <ListItem divider style={{ background: '#f6f7f8' }}>
             <Grid container direction='column'>
               <Grid item>
-                <Typography>Sent by <strong>{createdBy}</strong> on <strong>{chargeDateMoment.format('ddd, Do MMMM YYYY')}</strong>.</Typography>
+                <Typography>Sent by <strong>{formattedCreatedBy.name || formattedCreatedBy.username}</strong> on <strong>{chargeDateMoment.format('ddd, Do MMMM YYYY')}</strong>.</Typography>
               </Grid>
               <Grid item>
                 <Typography type='caption'>Full Amount</Typography>

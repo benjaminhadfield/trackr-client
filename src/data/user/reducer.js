@@ -5,6 +5,7 @@ const initialState = {
     users: {}
   },
   token: '',
+  id: null,
   name: '',
   loading: false,
   error: null
@@ -28,6 +29,21 @@ export default (state = initialState, action) => {
         ...state,
         error: action.payload,
         loading: false
+      }
+    case actionTypes.CURRENT_USER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case actionTypes.CURRENT_USER_SUCCESS:
+      return {
+        ...state,
+        ...action.payload.result,
+        loading: false
+      }
+    case actionTypes.CURRENT_USER_FAILURE:
+      return {
+        ...initialState
       }
     case actionTypes.SET_TOKEN:
       return {

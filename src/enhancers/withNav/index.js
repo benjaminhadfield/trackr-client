@@ -1,6 +1,7 @@
 import React from 'react'
 import { Page, Main } from '../../components/layout'
 import Nav from '../../components/nav'
+import TitleBar from '../../components/titleBar'
 
 export default (Component) => (
   (props) => {
@@ -10,6 +11,7 @@ export default (Component) => (
 
     return (
       <Page>
+        <TitleBar title={Component.title} />
         <Main>
           <Component {...props} />
         </Main>

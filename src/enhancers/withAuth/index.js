@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Auth from '../../services/auth'
-import { tokenSelector } from '../../data/user/selectors'
-import { setToken } from '../../data/user/actions'
+import { tokenSelector, idSelector, usersSelector } from '../../data/user/selectors'
+import { setToken, getUsers, getCurrentUser } from '../../data/user/actions'
 
 export default (Component) => {
   class WithAuth extends React.Component {
@@ -17,11 +17,11 @@ export default (Component) => {
     }
 
     authenticated = () => {
-      const { _setToken, _auth } = this.props
+      const { _actions, _auth } = this.props
+      if (!_auth.token) _actions.setToken(Auth.getToken())
+      if (!_auth.id) _actions.getCurrentUser()
+      if (!Object.keys(_auth.users).length) _actions.getUsers()
       this.setState({ authenticated: true })
-      if (!_auth.token) {
-        _setToken(Auth.getToken())
-      }
     }
 
     render () {
@@ -32,12 +32,18 @@ export default (Component) => {
 
   const mapStateToProps = state => ({
     _auth: {
-      token: tokenSelector(state)
+      token: tokenSelector(state),
+      id: idSelector(state),
+      users: usersSelector(state)
     }
   })
 
   const mapDispatchToProps = dispatch => ({
-    _setToken: token => dispatch(setToken(token))
+    _actions: {
+      setToken: token => dispatch(setToken(token)),
+      getCurrentUser: () => dispatch(getCurrentUser()),
+      getUsers: () => dispatch(getUsers())
+    }
   })
 
   return connect(mapStateToProps, mapDispatchToProps)(WithAuth)

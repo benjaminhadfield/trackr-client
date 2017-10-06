@@ -8,7 +8,7 @@ import { MenuItem } from 'material-ui/Menu'
 import { FormControl } from 'material-ui/Form'
 import Select from 'material-ui/Select'
 
-const CreateForm = ({ disabled, value, title, message, splitWith, actions }) => {
+const CreateForm = ({ disabled, value, title, message, splitWith, user, actions }) => {
   return (
     <form onSubmit={actions.onSubmit}>
       <Card>
@@ -31,17 +31,18 @@ const CreateForm = ({ disabled, value, title, message, splitWith, actions }) => 
               onChange={splitWith.onChange}
               input={<Input id='split-with' />}
             >
-              {splitWith.options.map(user => {
-                const selected = splitWith.value.includes(user.id)
+              {Object.values(user.entities.users).map(_user => {
+                const selected = splitWith.value.includes(_user.id)
                 return (
                   <MenuItem
-                    key={user.id}
-                    value={user.id}
+                    disabled={_user.id === user.id}
+                    key={_user.id}
+                    value={_user.id}
                     style={{
                       fontWeight: selected ? 'bold' : 'normal'
                     }}
                   >
-                    {user.name || user.username}
+                    {_user.name || _user.username}
                   </MenuItem>
                 )
               })}
@@ -63,9 +64,6 @@ const CreateForm = ({ disabled, value, title, message, splitWith, actions }) => 
           />
         </CardContent>
         <CardActions>
-          <Button>
-            Cancel
-          </Button>
           <Button raised color='primary' disabled={disabled} type='submit'>
             Create Charge
           </Button>
@@ -83,7 +81,6 @@ CreateForm.propTypes = {
   }).isRequired,
   splitWith: shape({
     value: arrayOf(number).isRequired,
-    options: arrayOf(shape({ name: string.isRequired })).isRequired,
     onChange: func.isRequired
   }).isRequired,
   title: shape({
@@ -93,6 +90,13 @@ CreateForm.propTypes = {
   message: shape({
     value: string,
     onChange: func.isRequired
+  }).isRequired,
+  user: shape({
+    entities: shape({
+      users: shape().isRequired
+    }).isRequired,
+    id: number.isRequired,
+    loading: bool.isRequired
   }).isRequired,
   actions: shape({
     onSubmit: func.isRequired

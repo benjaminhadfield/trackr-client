@@ -1,8 +1,7 @@
 import React from 'react'
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 import Charges from './scenes/charges'
 import Create from './scenes/create'

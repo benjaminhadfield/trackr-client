@@ -18,7 +18,7 @@ const createChargeFailure = actions.FAILURE(CREATE_CHARGE_FAILURE)
 
 export const getCharges = () => (dispatch) => {
   dispatch(chargesRequest())
-  api({
+  return api({
     url: '/charges/'
   })
     .then(actions.normalizeEntities([ charge ]))
@@ -28,7 +28,7 @@ export const getCharges = () => (dispatch) => {
 
 export const createCharge = ({ value, splitWith, title, message }) => (dispatch) => {
   dispatch(createChargeRequest())
-  api({
+  return api({
     url: '/charges/',
     method: 'post',
     data: {
