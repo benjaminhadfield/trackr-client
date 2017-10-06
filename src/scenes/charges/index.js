@@ -16,7 +16,10 @@ class Charges extends React.Component {
   }
 
   componentDidMount () {
-    this.props.actions.getCharges()
+    const { charge } = this.props
+    if (!charge.order.length) {
+      this.props.actions.getCharges()
+    }
   }
 
   render () {

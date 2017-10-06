@@ -31,9 +31,8 @@ class ChargeItem extends React.Component {
     const { value, title, message, chargeDate, splitWith, isPaid, createdBy } = this.props
     const { open } = this.state
 
-    console.log(splitWith, splitWith.length)
     const formattedValue = numeral(value / 100).format('0,0.00')
-    const formattedSplitValue = numeral(value / splitWith.length / 100).format('0,0.00')
+    const formattedSplitValue = numeral(value / (splitWith.length + 1) / 100).format('0,0.00')
     const chargeDateMoment = moment(chargeDate)
 
     return (
@@ -51,7 +50,7 @@ class ChargeItem extends React.Component {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={true}
+                    checked
                     disabled={isPaid}
                     onChange={console.log}
                   />

@@ -10,16 +10,16 @@ export default (Component) => {
       authenticated: false
     }
 
-    componentDidMount() {
+    componentDidMount () {
       Auth.isLoggedIn()
         ? this.authenticated()
         : this.props.history.replace('/login')
     }
 
     authenticated = () => {
-      const { _setToken, user } = this.props
+      const { _setToken, _auth } = this.props
       this.setState({ authenticated: true })
-      if (!user.token) {
+      if (!_auth.token) {
         _setToken(Auth.getToken())
       }
     }
@@ -31,7 +31,7 @@ export default (Component) => {
   }
 
   const mapStateToProps = state => ({
-    user: {
+    _auth: {
       token: tokenSelector(state)
     }
   })

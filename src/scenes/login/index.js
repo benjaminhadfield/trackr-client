@@ -46,23 +46,26 @@ class Login extends React.Component {
       <div>
         <Snackbar
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'center',
           }}
+          autoHideDuration={6000}
           open={user.error}
           message={<span>Incorrect username or password.</span>}
         />
-        <Grid container justify='center'>
+        <Grid container align='center' justify='center' style={{ height: '100vh' }}>
           <form onSubmit={this.handleSubmit}>
             <Card>
               <CardContent>
                 <Grid container direction='column'>
                   <TextField
+                    fullWidth
                     id='username'
                     label='Username'
                     onChange={this.handleChange('username')}
                   />
                   <TextField
+                    fullWidth
                     id='password'
                     label='Password'
                     type='password'
@@ -72,6 +75,7 @@ class Login extends React.Component {
               </CardContent>
               <CardActions>
                 <Button
+                  raised
                   type='submit'
                   color='primary'
                   disabled={!(username && password)}
