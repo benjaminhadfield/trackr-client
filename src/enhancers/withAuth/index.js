@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Auth from '../../services/auth'
 import { tokenSelector, idSelector, usersSelector } from '../../data/user/selectors'
-import { setToken, getUsers, getCurrentUser } from '../../data/user/actions'
+import { setToken, setUser, getUsers, getCurrentUser } from '../../data/user/actions'
 
 export default (Component) => {
   class WithAuth extends React.Component {
@@ -19,7 +19,7 @@ export default (Component) => {
     authenticated = () => {
       const { _actions, _auth } = this.props
       if (!_auth.token) _actions.setToken(Auth.getToken())
-      if (!_auth.id) _actions.getCurrentUser()
+      if (!_auth.id) _actions.setUser(Auth.getUser())
       if (!Object.keys(_auth.users).length) _actions.getUsers()
       this.setState({ authenticated: true })
     }
@@ -41,6 +41,7 @@ export default (Component) => {
   const mapDispatchToProps = dispatch => ({
     _actions: {
       setToken: token => dispatch(setToken(token)),
+      setUser: user => dispatch(setUser(user)),
       getCurrentUser: () => dispatch(getCurrentUser()),
       getUsers: () => dispatch(getUsers())
     }

@@ -50,6 +50,11 @@ export default (state = initialState, action) => {
         ...state,
         token: action.payload
       }
+    case actionTypes.SET_USER:
+      return {
+        ...state,
+        ...action.payload
+      }
     case actionTypes.TOKEN_REQUEST:
       return {
         ...state,

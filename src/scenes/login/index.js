@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Auth from '../../services/auth'
 import { loadingSelector, errorSelector } from '../../data/user/selectors'
-import { getToken } from '../../data/user/actions'
+import { getToken, getCurrentUser } from '../../data/user/actions'
 
 import Grid from 'material-ui/Grid'
 import Card, { CardActions, CardContent } from 'material-ui/Card'
@@ -40,7 +40,12 @@ class Login extends React.Component {
           this.setState({ error })
         } else {
           Auth.saveToken(payload.token)
-          history.push('/')
+          actions.getCurrentUser()
+            .then(({ payload }) => {
+              console.log(payload)
+              Auth.saveUser(payload.result)
+            })
+            .then(() => history.push('/'))
         }
       })
   }
@@ -107,7 +112,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    getToken: (username, password) => dispatch(getToken(username, password))
+    getToken: (username, password) => dispatch(getToken(username, password)),
+    getCurrentUser: () => dispatch(getCurrentUser())
   }
 })
 

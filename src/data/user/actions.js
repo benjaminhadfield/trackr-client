@@ -12,6 +12,7 @@ export const TOKEN_REQUEST = 'TOKEN_REQUEST'
 export const TOKEN_SUCCESS = 'TOKEN_SUCCESS'
 export const TOKEN_FAILURE = 'TOKEN_FAILURE'
 export const SET_TOKEN = 'SET_TOKEN'
+export const SET_USER = 'SET_USER'
 
 const usersRequest = actions.REQUEST(USERS_REQUEST)
 const usersSuccess = actions.SUCCESS(USERS_SUCCESS)
@@ -57,4 +58,9 @@ export const getToken = (username, password) => (dispatch) => {
 export const setToken = token => ({
   type: SET_TOKEN,
   payload: token
+})
+
+export const setUser = user => ({
+  type: SET_USER,
+  payload: user
 })
