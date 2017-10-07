@@ -9,8 +9,7 @@ import { ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction } from 'm
 import Collapse from 'material-ui/transitions/Collapse'
 import { FormControlLabel, FormGroup } from 'material-ui/Form'
 import Switch from 'material-ui/Switch'
-import ExpandLess from 'material-ui-icons/ExpandLess'
-import ExpandMore from 'material-ui-icons/ExpandMore'
+import Pending from 'material-ui-icons/ExpandLess'
 import Unpaid from 'material-ui-icons/AttachMoney'
 import Paid from 'material-ui-icons/Check'
 
@@ -22,44 +21,58 @@ const amber = {
   color: '#f39c12'
 }
 
+const blue = {
+  color: '#815fff'
+}
+
 class ChargeItem extends React.Component {
   state = { open: false }
 
   toggleOpen = () => this.setState(prevState => ({ open: !prevState.open }))
 
   render () {
-    const { user, value, title, message, chargeDate, splitWith, isPaid, createdBy } = this.props
+    const { charge, user, actions } = this.props
     const { open } = this.state
 
-    const formattedValue = numeral(value / 100).format('0,0.00')
-    const formattedSplitValue = numeral(value / (splitWith.length + 1) / 100).format('0,0.00')
-    const chargeDateMoment = moment(chargeDate)
-    const formattedCreatedBy = user.entities.users[createdBy] || {}
+    const userOwnsCharge = charge.createdBy === user.id
+    const formattedValue = numeral(charge.value / 100).format('0,0.00')
+    const formattedSplitValue = numeral(charge.value / (charge.splitWith.length + 1) / 100).format('0,0.00')
+    const chargeDateMoment = moment(charge.chargeDate)
+    const formattedCreatedBy = user.entities.users[charge.createdBy] || {}
 
     return (
       <div>
         <ListItem button divider onClick={this.toggleOpen}>
           <ListItemIcon>
-            {isPaid ? <Paid style={green} /> : <Unpaid style={amber} />}
+            {charge.isPaid
+              ? <Paid style={green} />
+              : userOwnsCharge ? <Pending style={blue} /> : <Unpaid style={amber} />
+            }
           </ListItemIcon>
           <ListItemText
             primary={'£' + formattedSplitValue}
             secondary={chargeDateMoment.fromNow()}
           />
-          <ListItemSecondaryAction>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={isPaid || false}
-                    disabled={isPaid}
-                    onChange={console.log}
-                  />
-                }
-                label='Sent'
-              />
-            </FormGroup>
-          </ListItemSecondaryAction>
+          {
+            userOwnsCharge
+              ? (
+                <ListItemSecondaryAction>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={charge.isPaid}
+                          disabled={charge.isPaid}
+                          onChange={() => actions.markAsPaid(charge.id)}
+                        />
+                      }
+                      label='Mark as paid'
+                    />
+                  </FormGroup>
+                </ListItemSecondaryAction>
+              )
+              : null
+          }
         </ListItem>
 
         <Collapse
@@ -78,11 +91,11 @@ class ChargeItem extends React.Component {
               </Grid>
               <Grid item>
                 <Typography type='caption'>Title</Typography>
-                <Typography>{title || '-'}</Typography>
+                <Typography>{charge.title || '-'}</Typography>
               </Grid>
               <Grid item>
                 <Typography type='caption'>Message</Typography>
-                <Typography>{message || '-'}</Typography>
+                <Typography>{charge.message || '-'}</Typography>
               </Grid>
             </Grid>
           </ListItem>

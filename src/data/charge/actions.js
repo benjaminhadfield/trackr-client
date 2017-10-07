@@ -8,6 +8,9 @@ export const CHARGES_FAILURE = 'CHARGES_FAILURE'
 export const CREATE_CHARGE_REQUEST = 'CREATE_CHARGE_REQUEST'
 export const CREATE_CHARGE_SUCCESS = 'CREATE_CHARGE_SUCCESS'
 export const CREATE_CHARGE_FAILURE = 'CREATE_CHARGE_FAILURE'
+export const MARK_AS_PAID_REQUEST = 'MARK_AS_PAID_REQUEST'
+export const MARK_AS_PAID_SUCCESS = 'MARK_AS_PAID_SUCCESS'
+export const MARK_AS_PAID_FAILURE = 'MARK_AS_PAID_FAILURE'
 
 const chargesRequest = actions.REQUEST(CHARGES_REQUEST)
 const chargesSuccess = actions.SUCCESS(CHARGES_SUCCESS)
@@ -15,6 +18,9 @@ const chargesFailure = actions.FAILURE(CHARGES_FAILURE)
 const createChargeRequest = actions.REQUEST(CREATE_CHARGE_REQUEST)
 const createChargeSuccess = actions.SUCCESS(CREATE_CHARGE_SUCCESS)
 const createChargeFailure = actions.FAILURE(CREATE_CHARGE_FAILURE)
+const markAsPaidRequest = actions.REQUEST(MARK_AS_PAID_REQUEST)
+const markAsPaidSuccess = actions.SUCCESS(MARK_AS_PAID_SUCCESS)
+const markAsPaidFailure = actions.FAILURE(MARK_AS_PAID_FAILURE)
 
 export const getCharges = () => (dispatch) => {
   dispatch(chargesRequest())
@@ -40,4 +46,14 @@ export const createCharge = ({ value, splitWith, title, message }) => (dispatch)
   })
     .then(json => dispatch(createChargeSuccess()))
     .catch(error => dispatch(createChargeFailure(error)))
+}
+
+export const markAsPaid = (id) => (dispatch) => {
+  dispatch(markAsPaidRequest())
+  return api({
+    url: `/charges/${id}/paid/`
+  })
+    .then(actions.normalizeEntities({ charge }))
+    .then(normalised => dispatch(markAsPaidSuccess(normalised)))
+    .catch(error => dispatch(markAsPaidFailure(error)))
 }

@@ -7,9 +7,9 @@ import { CircularProgress } from 'material-ui/Progress'
 
 import withNav from '../../enhancers/withNav'
 import withAuth from '../../enhancers/withAuth'
-import { usersSelector } from '../../data/user/selectors'
+import { usersSelector, idSelector } from '../../data/user/selectors'
 import { chargesSelector, orderSelector, loadingSelector } from '../../data/charge/selectors'
-import { getCharges } from '../../data/charge/actions'
+import { getCharges, markAsPaid } from '../../data/charge/actions'
 
 import ChargeItem from './components/chargeItem'
 
@@ -28,12 +28,20 @@ class Charges extends React.Component {
   }
 
   render () {
-    const { charge, user } = this.props
+    const { charge, user, actions } = this.props
+
     return charge.loading ? <CircularProgress /> : (
       <Grid>
         <List>
           {charge.order.map(id => (
-            <ChargeItem key={id} {...charge.entities[id]} user={user} />
+            <ChargeItem
+              key={id}
+              user={user}
+              actions={{
+                markAsPaid: actions.markAsPaid
+              }}
+              charge={charge.entities[id]}
+            />
           ))}
         </List>
       </Grid>
@@ -50,13 +58,15 @@ const mapStateToProps = state => ({
   user: {
     entities: {
       users: usersSelector(state)
-    }
+    },
+    id: idSelector(state)
   }
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    getCharges: () => dispatch(getCharges())
+    getCharges: () => dispatch(getCharges()),
+    markAsPaid: id => dispatch(markAsPaid(id))
   }
 })
 

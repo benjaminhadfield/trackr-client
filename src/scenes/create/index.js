@@ -49,6 +49,7 @@ class Create extends React.Component {
     const { user, charge } = this.props
     const { value, splitWith, title, message } = this.state
 
+    console.log(this.state)
     return (
       <Paper square elevation={0}>
         <CreateForm

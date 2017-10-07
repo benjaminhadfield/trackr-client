@@ -1,5 +1,6 @@
 import React from 'react'
 import { shape, string, number, func, bool, arrayOf } from 'prop-types'
+
 import Card, { CardActions, CardContent } from 'material-ui/Card'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
@@ -11,13 +12,6 @@ import Select from 'material-ui/Select'
 const CreateForm = ({ disabled, value, title, message, splitWith, user, actions }) => {
   return (
     <form onSubmit={actions.onSubmit}>
-      <div>
-        len:
-        {Object.values(user.entities.users)
-          .filter(_user => _user.id !== user.id).length}
-        user: {user.id}
-        loading: {user.loading.toString()}
-      </div>
       <Card>
         <CardContent>
           <TextField
@@ -26,7 +20,6 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
             autoFocus
             label='Amount'
             type='number'
-            InputProps={{ pattern: '\d*' }}
             value={value.value}
             onChange={value.onChange}
           />
@@ -85,7 +78,7 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
 CreateForm.propTypes = {
   disabled: bool.isRequired,
   value: shape({
-    value: string,
+    value: number,
     onChange: func.isRequired
   }).isRequired,
   splitWith: shape({
