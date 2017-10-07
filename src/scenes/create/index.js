@@ -54,7 +54,7 @@ class Create extends React.Component {
           }}
           splitWith={{
             value: splitWith,
-            onChange: this.handleChange('splitWith'),
+            onChange: this.handleChange('splitWith')
           }}
           title={{
             value: title,

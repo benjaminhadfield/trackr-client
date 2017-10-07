@@ -51,7 +51,7 @@ class ChargeItem extends React.Component {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={false}
+                    checked={isPaid || false}
                     disabled={isPaid}
                     onChange={console.log}
                   />

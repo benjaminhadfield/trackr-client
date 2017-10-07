@@ -31,21 +31,22 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
               onChange={splitWith.onChange}
               input={<Input id='split-with' />}
             >
-              {Object.values(user.entities.users).map(_user => {
-                const selected = splitWith.value.includes(_user.id)
-                return (
-                  <MenuItem
-                    disabled={_user.id === user.id}
-                    key={_user.id}
-                    value={_user.id}
-                    style={{
-                      fontWeight: selected ? 'bold' : 'normal'
-                    }}
-                  >
-                    {_user.name || _user.username}
-                  </MenuItem>
-                )
-              })}
+              {Object.values(user.entities.users)
+                .filter(_user => _user.id !== user.id)
+                .map(_user => {
+                  const selected = splitWith.value.includes(_user.id)
+                  return (
+                    <MenuItem
+                      key={_user.id}
+                      value={_user.id}
+                      style={{
+                        fontWeight: selected ? 'bold' : 'normal'
+                      }}
+                    >
+                      {_user.name || _user.username}
+                    </MenuItem>
+                  )
+                })}
             </Select>
           </FormControl>
           <TextField
