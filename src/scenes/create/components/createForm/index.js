@@ -26,6 +26,7 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
             autoFocus
             label='Amount'
             type='number'
+            InputProps={{ pattern: '\d*' }}
             value={value.value}
             onChange={value.onChange}
           />

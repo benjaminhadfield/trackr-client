@@ -17,7 +17,8 @@ export default class Auth {
 
   static isLoggedIn = () => !!Auth.getToken()
 
-  static destroyToken = () => {
+  static logout = () => {
     window.localStorage.removeItem('token')
+    window.localStorage.removeItem('user')
   }
 }
