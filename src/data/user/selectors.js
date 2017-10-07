@@ -1,3 +1,4 @@
+export const userSelector = state => state.user
 export const usersSelector = state => state.user.entities.users
 export const tokenSelector = state => state.user.token
 export const idSelector = state => state.user.id

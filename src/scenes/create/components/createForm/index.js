@@ -78,7 +78,7 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
 CreateForm.propTypes = {
   disabled: bool.isRequired,
   value: shape({
-    value: number,
+    value: string,
     onChange: func.isRequired
   }).isRequired,
   splitWith: shape({
