@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 
 import Grid from 'material-ui/Grid'
 import List from 'material-ui/List'
+import { CircularProgress } from 'material-ui/Progress'
+
 import withNav from '../../enhancers/withNav'
 import withAuth from '../../enhancers/withAuth'
 import { usersSelector } from '../../data/user/selectors'
-import { chargesSelector, orderSelector } from '../../data/charge/selectors'
+import { chargesSelector, orderSelector, loadingSelector } from '../../data/charge/selectors'
 import { getCharges } from '../../data/charge/actions'
 
 import ChargeItem from './components/chargeItem'
@@ -27,7 +29,7 @@ class Charges extends React.Component {
 
   render () {
     const { charge, user } = this.props
-    return (
+    return charge.loading ? <CircularProgress /> : (
       <Grid>
         <List>
           {charge.order.map(id => (
@@ -42,7 +44,8 @@ class Charges extends React.Component {
 const mapStateToProps = state => ({
   charge: {
     entities: chargesSelector(state),
-    order: orderSelector(state)
+    order: orderSelector(state),
+    loading: loadingSelector(state)
   },
   user: {
     entities: {

@@ -13,7 +13,7 @@ import CreateForm from './components/createForm'
 class Create extends React.Component {
   state = {
     value: '',
-    splitWith: [],
+    splitWith: '',
     title: '',
     message: ''
   }

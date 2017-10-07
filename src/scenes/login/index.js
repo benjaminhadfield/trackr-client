@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Auth from '../../services/auth'
-import { errorSelector } from '../../data/user/selectors'
+import { loadingSelector, errorSelector } from '../../data/user/selectors'
 import { getToken } from '../../data/user/actions'
 
 import Grid from 'material-ui/Grid'
@@ -85,7 +85,7 @@ class Login extends React.Component {
                   raised
                   type='submit'
                   color='primary'
-                  disabled={!(username && password)}
+                  disabled={!(username && password) || user.loading}
                 >
                   Login
                 </Button>
@@ -100,6 +100,7 @@ class Login extends React.Component {
 
 const mapStateToProps = state => ({
   user: {
+    loading: loadingSelector(state),
     error: errorSelector(state)
   }
 })

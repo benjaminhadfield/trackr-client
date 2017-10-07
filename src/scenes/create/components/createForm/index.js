@@ -11,6 +11,12 @@ import Select from 'material-ui/Select'
 const CreateForm = ({ disabled, value, title, message, splitWith, user, actions }) => {
   return (
     <form onSubmit={actions.onSubmit}>
+      <div>
+        len:
+        {Object.values(user.entities.users)
+          .filter(_user => _user.id !== user.id).length}
+      </div>
+      <div>{user.loading ? 'loading' : 'done'}</div>
       <Card>
         <CardContent>
           <TextField
@@ -26,25 +32,26 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
             <InputLabel htmlFor='split-with'>Split With</InputLabel>
             <Select
               required
-              multiple
+              native
               value={splitWith.value}
               onChange={splitWith.onChange}
               input={<Input id='split-with' />}
             >
+              <option value=''>-</option>
               {Object.values(user.entities.users)
                 .filter(_user => _user.id !== user.id)
                 .map(_user => {
-                  const selected = splitWith.value.includes(_user.id)
+                  const selected = splitWith.value === _user.id
                   return (
-                    <MenuItem
+                    <option
                       key={_user.id}
                       value={_user.id}
-                      style={{
-                        fontWeight: selected ? 'bold' : 'normal'
-                      }}
+                      // style={{
+                      //   fontWeight: selected ? 'bold' : 'normal'
+                      // }}
                     >
                       {_user.name || _user.username}
-                    </MenuItem>
+                    </option>
                   )
                 })}
             </Select>
