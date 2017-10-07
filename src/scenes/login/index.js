@@ -41,10 +41,7 @@ class Login extends React.Component {
         } else {
           Auth.saveToken(payload.token)
           actions.getCurrentUser()
-            .then(({ payload }) => {
-              console.log(payload)
-              Auth.saveUser(payload.result)
-            })
+            .then(({ payload }) => Auth.saveUser(payload.result))
             .then(() => history.push('/'))
         }
       })
