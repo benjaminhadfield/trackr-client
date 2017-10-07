@@ -15,8 +15,9 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
         len:
         {Object.values(user.entities.users)
           .filter(_user => _user.id !== user.id).length}
+        user: {user.id}
+        loading: {user.loading.toString()}
       </div>
-      <div>{user.loading ? 'loading' : 'done'}</div>
       <Card>
         <CardContent>
           <TextField
@@ -32,26 +33,25 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
             <InputLabel htmlFor='split-with'>Split With</InputLabel>
             <Select
               required
-              native
+              multiple
               value={splitWith.value}
               onChange={splitWith.onChange}
               input={<Input id='split-with' />}
             >
-              <option value=''>-</option>
               {Object.values(user.entities.users)
                 .filter(_user => _user.id !== user.id)
                 .map(_user => {
-                  const selected = splitWith.value === _user.id
+                  const selected = splitWith.value.includes(_user.id)
                   return (
-                    <option
+                    <MenuItem
                       key={_user.id}
                       value={_user.id}
-                      // style={{
-                      //   fontWeight: selected ? 'bold' : 'normal'
-                      // }}
+                      style={{
+                        fontWeight: selected ? 'bold' : 'normal'
+                      }}
                     >
                       {_user.name || _user.username}
-                    </option>
+                    </MenuItem>
                   )
                 })}
             </Select>

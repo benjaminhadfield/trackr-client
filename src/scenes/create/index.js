@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper'
 import withAuth from '../../enhancers/withAuth'
 import withNav from '../../enhancers/withNav'
 import { loadingSelector } from '../../data/charge/selectors'
+import { getUsers } from '../../data/user/actions'
 import { usersSelector, idSelector, loadingSelector as chargeLoadingSelector } from '../../data/user/selectors'
 import { createCharge } from '../../data/charge/actions'
 
@@ -13,12 +14,16 @@ import CreateForm from './components/createForm'
 class Create extends React.Component {
   state = {
     value: '',
-    splitWith: '',
+    splitWith: [],
     title: '',
     message: ''
   }
 
   static title = 'Create Charge'
+
+  componentDidMount () {
+    this.props.actions.getUsers()
+  }
 
   handleChange = name => e => {
     this.setState({ [name]: e.target.value })
@@ -54,7 +59,7 @@ class Create extends React.Component {
           }}
           splitWith={{
             value: splitWith,
-            onChange: this.handleChange('splitWith')
+            onChange: this.handleChange('splitWith'),
           }}
           title={{
             value: title,
@@ -95,7 +100,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    createCharge: data => dispatch(createCharge(data))
+    createCharge: data => dispatch(createCharge(data)),
+    getUsers: () => dispatch(getUsers())
   }
 })
 

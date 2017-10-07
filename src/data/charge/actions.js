@@ -33,7 +33,7 @@ export const createCharge = ({ value, splitWith, title, message }) => (dispatch)
     method: 'post',
     data: {
       value,
-      split_with: [splitWith],
+      split_with: splitWith,
       title,
       message
     }
