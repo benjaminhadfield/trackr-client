@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Auth from '../../services/auth'
-import { loadingSelector, errorSelector } from '../../data/user/selectors'
+import { loadingSelector, errorSelector, userSelector } from '../../data/user/selectors'
 import { getToken, getCurrentUser } from '../../data/user/actions'
 
 import Grid from 'material-ui/Grid'
@@ -42,9 +42,8 @@ class Login extends React.Component {
           this.setState({ error })
         } else {
           Auth.saveToken(payload.token)
-          actions.getCurrentUser()
-            .then(({ payload }) => Auth.saveUser(payload.result))
-            .then(() => history.push('/'))
+          console.log(this.props.user.all.token)
+          history.push('/')
         }
       })
   }
@@ -104,6 +103,7 @@ class Login extends React.Component {
 
 const mapStateToProps = state => ({
   user: {
+    all: userSelector(state),
     loading: loadingSelector(state),
     error: errorSelector(state)
   }

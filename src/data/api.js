@@ -19,7 +19,9 @@ import { store } from '../'
  * https://github.com/mzabriskie/axios#request-config
  * @return {Promise}
  */
-export default ({ url, headers, ...config }) => axios({
+export default ({ url, headers, ...config }) => {
+  console.log('calling api with user state', store.getState().user)
+  return axios({
   ...config,
   headers: {
     ...store.getState().user.token && {'Authorization': `Token ${store.getState().user.token}`},
@@ -31,4 +33,4 @@ export default ({ url, headers, ...config }) => axios({
     // Only transform data is data exists, otherwise some responses will fail (e.g. HTTP 204).
     if (data) return deepMapKeys(JSON.parse(data), camelCase)
   }
-})
+})}

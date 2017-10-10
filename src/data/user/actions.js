@@ -37,7 +37,7 @@ export const getUsers = () => (dispatch) => {
 export const getCurrentUser = () => (dispatch) => {
   dispatch(getCurrentUserRequest())
   return api({
-    url: '/users/me'
+    url: '/users/me/'
   })
     .then(actions.normalizeEntities({ user }))
     .then(normalised => dispatch(getCurrentUserSuccess(normalised)))
