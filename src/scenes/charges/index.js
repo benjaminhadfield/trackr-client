@@ -30,21 +30,24 @@ class Charges extends React.Component {
   render () {
     const { charge, user, actions } = this.props
 
-    return charge.loading ? <CircularProgress /> : (
-      <Grid>
-        <List>
-          {charge.order.map(id => (
-            <ChargeItem
-              key={id}
-              user={user}
-              actions={{
-                markAsPaid: actions.markAsPaid
-              }}
-              charge={charge.entities[id]}
-            />
-          ))}
-        </List>
-      </Grid>
+    return (
+      <div>
+        {charge.loading && <CircularProgress />}
+        <Grid>
+          <List>
+            {charge.order.map(id => (
+              <ChargeItem
+                key={id}
+                user={user}
+                actions={{
+                  markAsPaid: actions.markAsPaid
+                }}
+                charge={charge.entities[id]}
+              />
+            ))}
+          </List>
+        </Grid>
+      </div>
     )
   }
 }

@@ -30,11 +30,13 @@ class Login extends React.Component {
     })
   }
 
+  cleanUsername = username => username.toLowerCase().trim()
+
   handleSubmit = (e) => {
+    e.preventDefault()
     const { actions, history } = this.props
     const { username, password } = this.state
-    e.preventDefault()
-    actions.getToken(username, password)
+    actions.getToken(this.cleanUsername(username), password)
       .then(({ error, payload }) => {
         if (error) {
           this.setState({ error })
@@ -56,7 +58,7 @@ class Login extends React.Component {
         <Snackbar
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
           autoHideDuration={6000}
           open={user.error}
