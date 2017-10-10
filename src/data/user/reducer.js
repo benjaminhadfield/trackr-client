@@ -4,6 +4,7 @@ const initialState = {
   entities: {
     users: {}
   },
+  authenticatedAt: null,
   token: '',
   id: null,
   name: '',
@@ -39,6 +40,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...action.payload.result,
+        authenticatedAt: Date.now(),
         loading: false
       }
     case actionTypes.CURRENT_USER_FAILURE:
