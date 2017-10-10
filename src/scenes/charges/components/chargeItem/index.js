@@ -66,7 +66,7 @@ class ChargeItem extends React.Component {
                           onChange={() => actions.markAsPaid(charge.id)}
                         />
                       }
-                      label='Mark as paid'
+                      label={charge.isPaid ? 'Paid' : 'Mark as paid'}
                     />
                   </FormGroup>
                 </ListItemSecondaryAction>
