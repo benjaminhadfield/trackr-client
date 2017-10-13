@@ -30,8 +30,9 @@ class Create extends React.Component {
   }
 
   handleValueChange = e => {
-    const rawValue = e.target.value.replace(/^(0+?\.0?)/g, '').replace(/\./g, '')
-    const formattedValue = [...rawValue]
+    // Clean the raw value to get the integer amount in pence
+    const penceAmount = e.target.value.replace(/^(0+?\.0?)/g, '').replace(/\./g, '')
+    const formattedValue = [...penceAmount]
     // Add in the decimal point if needed.
     switch (formattedValue.length) {
       case 0:
@@ -47,11 +48,10 @@ class Create extends React.Component {
         formattedValue.splice(-2, 0, '.')
         break
     }
-    console.log({rawValue, formattedValue, len: rawValue.length})
     this.setState({
       value: {
-        display: formattedValue.join(''),
-        value: numeral(rawValue).value()
+        display: numeral(formattedValue.join('')).format('0,0.00'),
+        value: numeral(penceAmount).value()
       }
     })
   }
