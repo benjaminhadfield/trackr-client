@@ -32,6 +32,7 @@ class Create extends React.Component {
   handleValueChange = e => {
     // Clean the raw value to get the integer amount in pence
     const penceAmount = e.target.value.replace(/^(0+?\.0?)/g, '').replace(/\./g, '')
+    if (penceAmount.length > 10) return
     const formattedValue = [...penceAmount]
     // Add in the decimal point if needed.
     switch (formattedValue.length) {
