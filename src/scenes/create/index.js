@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import numeral from 'numeral'
 import Paper from 'material-ui/Paper'
 
 import withAuth from '../../enhancers/withAuth'
@@ -13,7 +14,10 @@ import CreateForm from './components/createForm'
 
 class Create extends React.Component {
   state = {
-    value: '',
+    value: {
+      display: '',
+      value: 0
+    },
     splitWith: [],
     title: '',
     message: ''
@@ -23,6 +27,33 @@ class Create extends React.Component {
 
   componentDidMount () {
     this.props.actions.getUsers()
+  }
+
+  handleValueChange = e => {
+    const rawValue = e.target.value.replace(/^(0+?\.0?)/g, '').replace(/\./g, '')
+    const formattedValue = [...rawValue]
+    // Add in the decimal point if needed.
+    switch (formattedValue.length) {
+      case 0:
+        formattedValue.splice(0, 0, 0, '.', 0, 0)
+        break
+      case 1:
+        formattedValue.splice(0, 0, 0, '.', 0)
+        break
+      case 2:
+        formattedValue.splice(0, 0, 0, '.')
+        break
+      default:
+        formattedValue.splice(-2, 0, '.')
+        break
+    }
+    console.log({rawValue, formattedValue, len: rawValue.length})
+    this.setState({
+      value: {
+        display: formattedValue.join(''),
+        value: numeral(rawValue).value()
+      }
+    })
   }
 
   handleChange = name => e => {
@@ -54,12 +85,12 @@ class Create extends React.Component {
         <CreateForm
           disabled={!this.isValid() || charge.loading}
           value={{
-            value: value,
-            onChange: this.handleChange('value')
+            value: value.display,
+            onChange: this.handleValueChange
           }}
           splitWith={{
             value: splitWith,
-            onChange: this.handleChange('splitWith'),
+            onChange: this.handleChange('splitWith')
           }}
           title={{
             value: title,

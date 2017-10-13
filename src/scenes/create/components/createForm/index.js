@@ -18,8 +18,9 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
             required
             fullWidth
             autoFocus
+            pattern='[0-9]*'
+            step='1'
             label='Amount'
-            type='number'
             value={value.value}
             onChange={value.onChange}
           />
@@ -33,18 +34,22 @@ const CreateForm = ({ disabled, value, title, message, splitWith, user, actions 
               input={<Input id='split-with' />}
             >
               {Object.values(user.entities.users)
-                .filter(_user => _user.id !== user.id)
                 .map(_user => {
                   const selected = splitWith.value.includes(_user.id)
                   return (
                     <MenuItem
                       key={_user.id}
                       value={_user.id}
+                      selected={selected}
                       style={{
                         fontWeight: selected ? 'bold' : 'normal'
                       }}
                     >
-                      {_user.name || _user.username}
+                      {
+                        _user.id === user.id
+                          ? `(Me) ${_user.name || _user.username}`
+                          : _user.name || _user.username
+                      }
                     </MenuItem>
                   )
                 })}

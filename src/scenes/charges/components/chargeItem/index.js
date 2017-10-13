@@ -36,7 +36,7 @@ class ChargeItem extends React.Component {
 
     const userOwnsCharge = charge.createdBy === user.id
     const formattedValue = numeral(charge.value / 100).format('0,0.00')
-    const formattedSplitValue = numeral(charge.value / (charge.splitWith.length + 1) / 100).format('0,0.00')
+    const formattedSplitValue = numeral(charge.value / (charge.splitWith.length) / 100).format('0,0.00')
     const chargeDateMoment = moment(charge.chargeDate)
     const formattedCreatedBy = user.entities.users[charge.createdBy] || {}
 
